@@ -115,5 +115,78 @@ import java.util.Scanner;
 
             System.out.println("Producto registrado.");
         }
-    }
+
+        static void entradaStock() {
+            System.out.print("Nombre del producto: ");
+            String nombre = sc.nextLine();
+
+            Producto encontrado = buscarProducto(nombre);
+
+            if (encontrado == null) {
+                System.out.println("Error: Producto no encontrado.");
+                return;
+            }
+
+            System.out.print("Cantidad a ingresar: ");
+            try {
+                int cantidad = Integer.parseInt(sc.nextLine());
+
+                if (cantidad <= 0) {
+                    System.out.println("La cantidad debe ser mayor a 0.");
+                } else {
+                    encontrado.setStock(encontrado.getStock() + cantidad);
+
+
+                    Inventario.guardarProductos(productos);
+
+                    System.out.println("Stock agregado.");
+                }
+
+            } catch (Exception e) {
+                System.out.println("Error: Ingrese solo números.");
+            }
+        }
+
+        static void salidaStock() {
+
+            System.out.println("\n=== PRODUCTOS DISPONIBLES ===");
+            for (Producto p : productos) {
+                if (p.getStock() > 0) {
+                    System.out.println("- " + p.getNombre() + " | Stock: " + p.getStock());
+                }
+            }
+
+            System.out.print("\nNombre del producto: ");
+            String nombre = sc.nextLine();
+
+            Producto encontrado = buscarProducto(nombre);
+
+            if (encontrado == null) {
+                System.out.println("Error: Producto no encontrado.");
+                return;
+            }
+
+            System.out.print("Cantidad a retirar: ");
+
+            try {
+                int cantidad = Integer.parseInt(sc.nextLine());
+
+                if (cantidad <= 0) {
+                    System.out.println("La cantidad debe ser mayor a 0.");
+                } else if (cantidad > encontrado.getStock()) {
+                    System.out.println("Error: Stock insuficiente.");
+                } else {
+                    encontrado.setStock(encontrado.getStock() - cantidad);
+
+
+                    Inventario.guardarProductos(productos);
+
+                    System.out.println("Venta registrada.");
+                }
+
+            } catch (Exception e) {
+                System.out.println("Error: Ingrese solo números.");
+            }
+        }
+
 
