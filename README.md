@@ -397,7 +397,7 @@ else Producto no encontrado
 end
 @enduml
 ```
-4) Ver Productos (con alerta de stock bajo)
+4) Ver Productos
 ```
 @startuml
 title CU-04 Ver Productos
