@@ -163,3 +163,140 @@ Proveedor "1" o-- "*" Producto
 Movimiento "*" --> "1" Producto
 @enduml
 
+2. Casos de uso principales
+
+Actores
+
+Administrador / Usuario del sistema.
+
+Casos de uso
+
+Registrar producto.
+
+Entrada de stock.
+
+Salida de stock.
+
+Ver productos.
+
+Id: CDU1—Registrar Producto
+
+Breve descripción:
+El usuario registra un nuevo producto en el inventario.
+
+Actores primarios:
+Usuario.
+
+Precondiciones:
+1. El sistema está en ejecución.
+2. El usuario conoce los datos del producto.
+3. Debe existir conexión con el módulo de inventario.
+
+Flujo principal:
+1. El usuario selecciona la opción "Registrar producto".
+2. El sistema solicita nombre, precio y stock inicial.
+3. El usuario ingresa los datos.
+4. El sistema valida la información.
+   4.1 El nombre no debe estar vacío.
+   4.2 El precio y el stock deben ser valores numéricos válidos.
+5. El sistema crea el producto.
+6. El sistema lo agrega al inventario.
+
+Postcondiciones:
+1. El producto queda disponible para futuras operaciones.
+
+Flujos alternativos:
+DatosInválidos.
+
+Id: CDU2—Entrada de Stock
+
+Breve descripción:
+El usuario aumenta el stock de un producto existente.
+
+Actores primarios:
+Usuario.
+
+Precondiciones:
+1. Debe existir al menos un producto registrado.
+2. El usuario conoce el nombre del producto.
+3. La cantidad debe ser positiva.
+
+Flujo principal:
+1. El usuario selecciona "Entrada de stock".
+2. El sistema solicita el nombre.
+3. El usuario lo ingresa.
+4. El sistema busca el producto.
+5. El sistema solicita la cantidad.
+6. El usuario ingresa la cantidad.
+7. El sistema valida la cantidad.
+   7.1 Debe ser numérica.
+   7.2 Debe ser mayor que cero.
+8. El sistema suma la cantidad al stock.
+9. El sistema confirma la operación.
+
+Postcondiciones:
+1. El stock del producto aumenta.
+
+Flujos alternativos:
+ProductoNoEncontrado.
+CantidadInválida.
+
+Id: CDU3—Salida de Stock
+
+Breve descripción:
+El usuario retira stock de un producto registrado.
+
+Actores primarios:
+Usuario.
+
+Precondiciones:
+1. Deben existir productos registrados.
+2. La cantidad debe ser positiva.
+3. El usuario conoce el nombre del producto.
+
+Flujo principal:
+1. El usuario selecciona "Salida de stock".
+2. El sistema solicita el nombre.
+3. El usuario lo ingresa.
+4. El sistema busca el producto.
+5. El sistema solicita la cantidad.
+6. El usuario ingresa la cantidad.
+7. El sistema valida la cantidad.
+   7.1 Debe ser numérica.
+   7.2 Debe ser mayor que cero.
+8. El sistema verifica el stock disponible.
+   8.1 La cantidad no debe superar el stock actual.
+9. El sistema descuenta la cantidad.
+10. El sistema confirma la operación.
+
+Postcondiciones:
+1. El stock se actualiza.
+2. Si el stock queda por debajo de 5, se muestra alerta de stock bajo.
+
+Flujos alternativos:
+ProductoNoEncontrado.
+CantidadInválida.
+StockInsuficiente.
+
+Id: CDU4—Ver Productos
+
+Breve descripción:
+El usuario visualiza los productos registrados.
+
+Actores primarios:
+Usuario.
+
+Precondiciones:
+1. Debe existir al menos un producto registrado.
+
+Flujo principal:
+1. El usuario selecciona "Ver productos".
+2. El sistema muestra la lista.
+3. El sistema identifica niveles de stock.
+   3.1 Si stock < 5, muestra alerta de stock bajo.
+
+Postcondiciones:
+1. El usuario conoce el estado actual del inventario.
+
+Flujos alternativos:
+InventarioVacío.
