@@ -115,5 +115,5 @@ import java.util.Scanner;
 
             System.out.println("Producto registrado.");
         }
-
+    }
 
