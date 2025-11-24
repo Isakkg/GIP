@@ -164,6 +164,7 @@ Movimiento "*" --> "1" Producto
 @enduml
 
 ```
+<img width="1171" height="878" alt="erffef" src="https://github.com/user-attachments/assets/d9f19203-3ffb-4fcd-b918-efbe671e765d" />
 
 ## *5. Casos de uso principales*
 
