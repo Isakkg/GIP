@@ -165,7 +165,7 @@ Movimiento "*" --> "1" Producto
 
 ```
 
-## *5. Casos de uso principales *
+## *5. Casos de uso principales*
 
 Actores
 
