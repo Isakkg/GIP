@@ -300,3 +300,119 @@ Postcondiciones:
 
 Flujos alternativos:
 InventarioVacío.
+
+1) Registrar Producto
+@startuml
+title CU-01 Registrar Producto
+
+actor Usuario
+participant Main
+participant Producto
+
+Usuario -> Main : Selecciona "Registrar producto"
+Main -> Usuario : Solicita nombre, precio, stock inicial
+Usuario -> Main : Ingresa datos
+Main -> Main : Valida datos
+
+alt Datos válidos
+  Main -> Producto : new Producto(nombre, precio, stock)
+  Main -> Main : agrega producto a la lista
+  Main -> Usuario : Confirma "Producto registrado"
+else Datos inválidos
+  Main -> Usuario : Muestra error de datos
+end
+@enduml
+
+2) Entrada de Stock
+@startuml
+title CU-02 Entrada de Stock
+
+actor Usuario
+participant Main
+participant Producto
+
+Usuario -> Main : Selecciona "Entrada de stock"
+Main -> Usuario : Solicita nombre del producto
+Usuario -> Main : Ingresa nombre
+Main -> Main : buscarProducto(nombre)
+
+alt Producto encontrado
+  Main -> Usuario : Solicita cantidad a ingresar
+  Usuario -> Main : Ingresa cantidad
+  Main -> Main : Valida cantidad > 0
+
+  alt Cantidad válida
+    Main -> Producto : ajustarStock(+cantidad)
+    Main -> Usuario : Confirma "Entrada registrada"
+  else Cantidad inválida
+    Main -> Usuario : Muestra error de cantidad
+  end
+
+else Producto no encontrado
+  Main -> Usuario : Muestra error "Producto no encontrado"
+end
+@enduml
+
+3) Salida de Stock
+@startuml
+title CU-03 Salida de Stock
+
+actor Usuario
+participant Main
+participant Producto
+
+Usuario -> Main : Selecciona "Salida de stock"
+Main -> Usuario : Solicita nombre del producto
+Usuario -> Main : Ingresa nombre
+Main -> Main : buscarProducto(nombre)
+
+alt Producto encontrado
+  Main -> Usuario : Solicita cantidad a retirar
+  Usuario -> Main : Ingresa cantidad
+  Main -> Main : Valida cantidad > 0
+
+  alt Cantidad válida
+    Main -> Main : Verifica stock suficiente (cantidad <= stock)
+
+    alt Stock suficiente
+      Main -> Producto : ajustarStock(-cantidad)
+      Main -> Usuario : Confirma "Salida registrada"
+    else Stock insuficiente
+      Main -> Usuario : Muestra error "Stock insuficiente"
+    end
+
+  else Cantidad inválida
+    Main -> Usuario : Muestra error de cantidad
+  end
+
+else Producto no encontrado
+  Main -> Usuario : Muestra error "Producto no encontrado"
+end
+@enduml
+
+4) Ver Productos (con alerta de stock bajo)
+@startuml
+title CU-04 Ver Productos
+
+actor Usuario
+participant Main
+participant Producto
+
+Usuario -> Main : Selecciona "Ver productos"
+Main -> Main : Recorre lista productos
+
+alt Inventario no vacío
+  loop Por cada producto
+    Main -> Producto : getNombre()
+    Main -> Producto : getPrecio()
+    Main -> Producto : getStock()
+    Main -> Usuario : Muestra datos del producto
+
+    alt Stock < 5
+      Main -> Usuario : Muestra "ALERTA: Stock bajo"
+    end
+  end
+else Inventario vacío
+  Main -> Usuario : Muestra "No hay productos registrados"
+end
+@enduml
