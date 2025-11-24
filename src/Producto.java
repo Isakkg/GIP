@@ -1,4 +1,6 @@
-public class Producto {
+import java.io.Serializable;
+
+public class Producto implements Serializable {
 
     private String nombre;
     private double precio;
@@ -30,6 +32,3 @@ public class Producto {
         this.stock += cantidad;
     }
 }
-
-
-

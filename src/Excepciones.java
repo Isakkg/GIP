@@ -12,3 +12,9 @@ public class Excepciones {
         }
     }
 }
+
+class StockInsuficienteError extends ErrorInventario {
+    public StockInsuficienteError(String mensaje) {
+        super(mensaje);
+    }
+}

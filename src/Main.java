@@ -48,8 +48,72 @@ import java.util.Scanner;
                         break;
 
                     default:
-                        System.out.println("❌ Opción inválida.");
+                        System.out.println(" Opción inválida.");
                 }
 
             } while (opcion != 5);
         }
+        static void registrarProducto() {
+
+            String nombre = "";
+            boolean nombreValido = false;
+
+            while (!nombreValido) {
+                System.out.print("Nombre: ");
+                nombre = sc.nextLine();
+
+                if (!nombre.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
+                    System.out.println("Error: El nombre solo puede contener letras.");
+                    continue;
+                }
+
+                if (buscarProducto(nombre) != null) {
+                    System.out.println("Error: Ya existe un producto con ese nombre.");
+                    continue;
+                }
+
+                nombreValido = true;
+            }
+
+            double precio = 0;
+            boolean precioValido = false;
+
+            while (!precioValido) {
+                System.out.print("Precio: ");
+                String input = sc.nextLine();
+
+                try {
+                    input = input.replace(".", "").replace(",", ".");
+                    precio = Double.parseDouble(input);
+                    precioValido = true;
+                } catch (NumberFormatException e) {
+                    System.out.println("Error: Ingrese solo números.");
+                    System.out.println("Ejemplos válidos: 120000000 | 120.000.000 | 1500,50 | 10.5\n");
+                }
+            }
+
+            int stock = 0;
+            boolean stockValido = false;
+
+            while (!stockValido) {
+                System.out.print("Stock inicial: ");
+                try {
+                    stock = Integer.parseInt(sc.nextLine());
+                    if (stock < 0) {
+                        System.out.println("El stock no puede ser negativo.");
+                    } else {
+                        stockValido = true;
+                    }
+                } catch (Exception e) {
+                    System.out.println("Error: Ingrese solo números enteros.");
+                }
+            }
+
+            productos.add(new Producto(nombre, precio, stock));
+
+            Inventario.guardarProductos(productos);
+
+            System.out.println("Producto registrado.");
+        }
+
+
