@@ -80,9 +80,9 @@
 
 ## *4. Diagramas UML*
 
-### *4.1. Diagrama de clases (PlantUML)*
+### *4.1. Diagrama de clases*
 
-```plantuml
+```
 @startuml
 title Sistema de Gestión de Inventario
 skinparam classAttributeIconSize 0
@@ -162,6 +162,8 @@ Inventario "1" o-- "*" Movimiento
 Proveedor "1" o-- "*" Producto
 Movimiento "*" --> "1" Producto
 @enduml
+
+```
 
 2. Casos de uso principales
 
@@ -302,6 +304,7 @@ Flujos alternativos:
 InventarioVacío.
 
 1) Registrar Producto
+```
 @startuml
 title CU-01 Registrar Producto
 
@@ -323,7 +326,10 @@ else Datos inválidos
 end
 @enduml
 
+```
+
 2) Entrada de Stock
+```
 @startuml
 title CU-02 Entrada de Stock
 
@@ -352,8 +358,9 @@ else Producto no encontrado
   Main -> Usuario : Muestra error "Producto no encontrado"
 end
 @enduml
-
+```
 3) Salida de Stock
+```
 @startuml
 title CU-03 Salida de Stock
 
@@ -389,8 +396,9 @@ else Producto no encontrado
   Main -> Usuario : Muestra error "Producto no encontrado"
 end
 @enduml
-
+```
 4) Ver Productos (con alerta de stock bajo)
+```
 @startuml
 title CU-04 Ver Productos
 
@@ -416,3 +424,4 @@ else Inventario vacío
   Main -> Usuario : Muestra "No hay productos registrados"
 end
 @enduml
+```
