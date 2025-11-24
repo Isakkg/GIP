@@ -84,87 +84,106 @@
 
 ```
 @startuml
-title Sistema de Gestión de Inventario
+title Diagrama de Clases - Código Implementado (Actual)
 skinparam classAttributeIconSize 0
+skinparam linetype ortho
 
-interface Validable {
-+ validarDatos(): void
+interface Serializable
+
+class Exception {}
+
+class ErrorInventario extends Exception {
+  + ErrorInventario(mensaje: String)
 }
 
-interface Persistible {
-+ guardarDatos(): void
-+ cargarDatos(): void
+class DatosInvalidosError extends ErrorInventario {
+  + DatosInvalidosError(mensaje: String)
 }
 
-class Producto implements Validable {
-- int id
-- String nombre
-- String categoria
-- int stock
-- double precio
-- int reorderLevel
-+ validarDatos(): void
-+ ajustarStock(cantidad: int): void
-+ esBajoStock(): boolean
+class StockInsuficienteError extends ErrorInventario {
+  + StockInsuficienteError(mensaje: String)
 }
 
-class Proveedor {
-- int id
-- String nombre
-- String contacto
-- List<Producto> productos
-+ agregarProducto(producto: Producto): void
-+ mostrarInfo(): void
+class NombreInvalidoError extends ErrorInventario {
+  + NombreInvalidoError(mensaje: String)
 }
 
-abstract class Movimiento implements Validable {
-- int id
-- String tipo
-- Producto producto
-- int cantidad
-- LocalDateTime fecha
-+ validarDatos(): void
-+ aplicarMovimiento(): void
+class FormatoNumericoError extends ErrorInventario {
+  + FormatoNumericoError(mensaje: String)
 }
 
-class IngresoMovimiento extends Movimiento {
-+ aplicarMovimiento(): void
+class Producto implements Serializable {
+  - String nombre
+  - double precio
+  - int stock
+  + Producto(nombre: String, precio: double, stock: int)
+  + getNombre(): String
+  + getPrecio(): double
+  + getStock(): int
+  + setStock(stock: int): void
+  + ajustarStock(cantidad: int): void
 }
 
-class SalidaMovimiento extends Movimiento {
-+ aplicarMovimiento(): void
+class Proveedor implements Serializable {
+  - String nombre
+  - String contacto
+  + Proveedor(nombre: String, contacto: String)
+  + getNombre(): String
+  ' Nota: Falta getContacto()
 }
 
-class Inventario implements Persistible {
-- List<Producto> productos
-- List<Proveedor> proveedores
-- List<Movimiento> movimientos
-+ agregarProducto(producto: Producto): void
-+ agregarProveedor(proveedor: Proveedor): void
-+ registrarMovimiento(mov: Movimiento): void
-+ mostrarProductos(): void
-+ alertasStockBajo(): void
-+ guardarDatos(): void
-+ cargarDatos(): void
+class Movimiento {
+  - String tipo
+  - Producto producto
+  - int cantidad
+  + Movimiento(tipo: String, producto: Producto, cantidad: int)
+  + validarDatos() throws DatosInvalidosError
+  + aplicar() throws StockInsuficienteError
+  ' Nota: No implementa Serializable
 }
 
-abstract class ErrorInventario extends Exception {
-+ mensaje: String
+
+class Inventario {
+  ' Esta clase es puramente estática (Utilidad)
+  + {static} guardarProductos(productos: ArrayList<Producto>): void
+  + {static} cargarProductos(): ArrayList<Producto>
 }
 
-class StockInsuficienteError extends ErrorInventario
-class DatosInvalidosError extends ErrorInventario
+class Main {
+  ' El Main tiene el estado (la lista de productos)
+  - {static} ArrayList<Producto> productos
+  - {static} Scanner sc
+  + {static} main(args: String[]): void
+  + {static} registrarProducto(): void
+  + {static} entradaStock(): void
+  + {static} salidaStock(): void
+  + {static} verProductos(): void
+  + {static} buscarProducto(nombre: String): Producto
+}
 
-Inventario "1" o-- "*" Producto
-Inventario "1" o-- "*" Proveedor
-Inventario "1" o-- "*" Movimiento
 
-Proveedor "1" o-- "*" Producto
-Movimiento "*" --> "1" Producto
+' 1. El Main es dueño de la lista de Productos
+Main "1" -- Producto : contiene (lista estática) >
+
+' 2. Main usa Inventario para guardar (pero no para cargar)
+Main ..> Inventario : usa (guardarProductos) >
+
+' 3. Movimiento depende de Producto para operar
+Movimiento "1" --> "1" Producto : modifica >
+
+' 4. Inventario depende de Producto para serializar
+Inventario ..> Producto : usa >
+
+' 5. El resto de clases de dominio están aisladas del flujo principal (Main)
+Proveedor -[hidden]-> Main 
+
+' Dependencias de Excepciones
+Movimiento ..> DatosInvalidosError : lanza >
+Movimiento ..> StockInsuficienteError : lanza >
+
 @enduml
-
 ```
-<img width="1171" height="878" alt="erffef" src="https://github.com/user-attachments/assets/d9f19203-3ffb-4fcd-b918-efbe671e765d" />
+<img width="1859" height="969" alt="eflesflnfelnfsljnfe+" src="https://github.com/user-attachments/assets/8fb53bc5-377d-4394-8054-1b3712a89038" />
 
 ## *5. Casos de uso principales*
 
@@ -327,8 +346,8 @@ else Datos inválidos
   Main -> Usuario : Muestra error de datos
 end
 @enduml
-
 ```
+<img width="627" height="523" alt="skjbkfjbdskjbfgjkd" src="https://github.com/user-attachments/assets/d809885e-06bc-4fc3-9107-df1b69e1304a" />
 
 2) Entrada de Stock
 ```
@@ -361,6 +380,8 @@ else Producto no encontrado
 end
 @enduml
 ```
+<img width="591" height="656" alt="lkjklkjkllk" src="https://github.com/user-attachments/assets/17286ddf-5e0a-4ef9-b270-c49faa7efbfb" />
+
 3) Salida de Stock
 ```
 @startuml
@@ -399,6 +420,8 @@ else Producto no encontrado
 end
 @enduml
 ```
+<img width="733" height="773" alt="fkds" src="https://github.com/user-attachments/assets/ba25200d-0032-496d-8b51-eb17f2e1e5c1" />
+
 4) Ver Productos
 ```
 @startuml
@@ -427,6 +450,7 @@ else Inventario vacío
 end
 @enduml
 ```
+<img width="583" height="572" alt="image" src="https://github.com/user-attachments/assets/c622a52f-d0f5-4184-8c1d-dadfc63ce0db" />
 
 ## Principios de Programación Orientada a Objetos (POO)
 
