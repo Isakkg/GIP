@@ -190,3 +190,32 @@ import java.util.Scanner;
         }
 
 
+        static void verProductos() {
+
+            if (productos.isEmpty()) {
+                System.out.println("No hay productos registrados.");
+                return;
+            }
+
+            System.out.println("\n=== INVENTARIO ===");
+            for (Producto p : productos) {
+                System.out.println(p.getNombre() + " | Precio: " + p.getPrecio() + " | Stock: " + p.getStock());
+
+                if (p.getStock() <= 2) {
+                    System.out.println("ALERTA: Stock bajo");
+                }
+            }
+        }
+
+        static Producto buscarProducto(String nombre) {
+            for (Producto p : productos) {
+                if (p.getNombre().equalsIgnoreCase(nombre)) {
+                    return p;
+                }
+            }
+            return null;
+        }
+    }
+
+
+

@@ -1,3 +1,5 @@
+
+
 class Movimiento {
     private String tipo;
     private Producto producto;
