@@ -425,3 +425,211 @@ else Inventario vacío
 end
 @enduml
 ```
+
+Principios de Programación Orientada a Objetos (POO)
+
+Abstracción
+El sistema modela entidades reales mediante clases. Producto representa artículos del inventario; Movimiento modela una operación de entrada o salida; Inventario centraliza y administra los objetos del sistema.
+
+Encapsulamiento
+Los atributos (nombre, precio, stock) están protegidos y solo pueden modificarse a través de métodos como ajustarStock() o getters/setters. Esto evita inconsistencias y asegura control del estado.
+
+Herencia
+En el diseño UML, Movimiento actúa como clase abstracta que agrupa atributos y comportamientos comunes. IngresoMovimiento y SalidaMovimiento heredan de ella y redefinen la lógica correspondiente.
+
+Polimorfismo
+El método aplicarMovimiento() se comporta de forma distinta según si se trata de una entrada o una salida de stock. Esto permite tratar los movimientos de forma general sin perder especialización.
+
+Principios SOLID aplicados
+
+S — Responsabilidad Única (SRP)
+
+Producto gestiona únicamente atributos y métodos del producto.
+
+Inventario controla colecciones y persistencia.
+
+Movimiento se encarga de modificar el stock.
+
+Excepciones define errores específicos del dominio.
+
+O — Abierto/Cerrado (OCP)
+Se pueden agregar nuevos tipos de movimientos sin modificar Inventario ni Producto, solo creando nuevas subclases de Movimiento.
+
+L — Sustitución de Liskov (LSP)
+IngresoMovimiento y SalidaMovimiento pueden usarse donde se espera un objeto Movimiento, sin romper la lógica del sistema.
+
+I — Segregación de Interfaces (ISP)
+En el UML se separan interfaces chicas como Validable y Persistible, evitando forzar a las clases a implementar métodos innecesarios.
+
+D — Inversión de Dependencias (DIP)
+El diseño teórico utiliza dependencias hacia interfaces (Validable, Persistible) en lugar de depender de implementaciones concretas. Esto reduce acoplamiento y facilita la evolución del sistema.
+
+Patrón Singleton en el sistema
+
+El patrón Singleton funciona bien en este proyecto porque el inventario debe existir solo una vez durante toda la ejecución. Tener varias copias del inventario generaría datos inconsistentes. Con Singleton, todas las operaciones (registrar, ingresar stock, retirar stock y ver productos) trabajan sobre la misma instancia, garantizando que los cambios se reflejen en todo el sistema.
+
+Además, centraliza la persistencia: la misma instancia es la que carga y guarda los datos, evitando duplicados y facilitando el control del estado del inventario.
+
+## 1. Principios de POO
+
+**¿Cómo aplicaste abstracción, encapsulación, herencia y polimorfismo?**
+
+> Aplicamos abstracción separando el sistema en clases como Producto, Movimiento y Proveedor, donde cada clase representa una entidad real del sistema.
+> 
+> 
+> Usamos **encapsulación** declarando los atributos como `private` y accediendo a ellos por medio de getters y setters.
+> 
+> Implementamos **herencia** en la jerarquía de excepciones, donde `ErrorInventario` es la clase base y `DatosInvalidosError` y `StockInsuficienteError` heredan de ella.
+> 
+> El **polimorfismo** se da cuando manejo diferentes tipos de excepciones usando la clase base `ErrorInventario` en los bloques `catch`.
+> 
+
+**Clase base y clases derivadas**
+
+> La clase base es ErrorInventario y las clases derivadas son DatosInvalidosError y StockInsuficienteError, que extienden su comportamiento.
+> 
+
+**Polimorfismo dinámico**
+
+> Aplicamos polimorfismo dinámico en el manejo de excepciones, porque puedemos capturar distintos errores usando la clase padre y Java decide en tiempo de ejecución qué tipo de excepción es.
+> 
+
+---
+
+## 2. Relación entre clases
+
+**Relaciones entre clases**
+
+> Existe una asociación entre Movimiento y Producto, porque un movimiento siempre está relacionado con un producto.
+> 
+> 
+> Hay una forma de **agregación** entre `Inventario` y la lista de `Producto`, ya que el inventario gestiona productos pero estos pueden existir independientemente.
+> 
+
+**Interfaz vs clase abstracta**
+
+> En este proyecto usé clases concretas en lugar de interfaces porque la lógica era sencilla y no necesitaba múltiples implementaciones. En una versión más avanzada podría usar interfaces para repositorios de persistencia.
+> 
+
+**Sobrecarga o sobreescritura**
+
+> Implementamos sobreescritura en las excepciones al heredar el comportamiento de Exception y personalizar los mensajes de error mediante el constructor.
+> 
+
+---
+
+## 3. Diseño UML
+
+**¿El UML refleja el código?**
+
+> Sí, el diagrama refleja las relaciones reales entre las clases. Durante la implementación ajusté el diseño agregando el método ajustarStock() en Producto.
+> 
+
+**Herramienta usada**
+
+> Usé PlantUML / herramientas UML en línea y me aseguré de que las clases, atributos y relaciones coincidieran con el código desarrollado.
+> 
+
+---
+
+## 4. Patrones de diseño
+
+**¿Qué patrón usaste?**
+
+> Apliqué una idea del patrón Facade, donde la clase Inventario centraliza las operaciones de registrar productos, entradas y salidas.
+> 
+
+**Motivación**
+
+> Elegí este patrón para simplificar la interacción con el sistema y evitar que la clase Main manejara toda la lógica.
+> 
+
+---
+
+## 5. Principios SOLID
+
+**Principio aplicado**
+
+> Apliqué el Principio de Responsabilidad Única (SRP) separando cada clase con una sola función:
+> 
+> 
+> `Producto` representa datos, `Movimiento` gestiona operaciones y `Inventario` administra la colección.
+> 
+
+**Bajo acoplamiento y alta cohesión**
+
+> Diseñé las clases para que cada una tenga responsabilidades claras y que se comuniquen solo mediante métodos públicos.
+> 
+
+---
+
+## 6. Excepciones y manejo de errores
+
+**Excepciones personalizadas**
+
+> Implementé ErrorInventario, DatosInvalidosError y StockInsuficienteError.
+> 
+> 
+> Se lanzan cuando el usuario introduce datos inválidos o intenta retirar más stock del disponible.
+> 
+
+**Evitar que el sistema se detenga**
+
+> Uso bloques try-catch para capturar errores y permitir que el programa siga ejecutándose.
+> 
+
+---
+
+## 7. Persistencia
+
+**¿Cómo guardas los datos?**
+
+> Implementé persistencia mediante serialización de objetos en archivos, para que los productos se mantengan aunque el programa se cierre.
+> 
+
+**Clases responsables**
+
+> La clase Inventario es la encargada de guardar y cargar los datos.
+> 
+
+---
+
+## 8. Interfaz de Usuario
+
+**Tecnología usada**
+
+> Utilicé una interfaz de consola usando Scanner.
+> 
+
+**Separación de responsabilidades**
+
+> La interacción con el usuario está en la clase Main, mientras que la lógica de negocio está en otras clases.
+> 
+
+---
+
+## 9. Calidad del código
+
+**Estructura del código**
+
+> Organicé el proyecto en clases separadas por responsabilidad y mantuve el código modular.
+> 
+
+**Convenciones**
+
+> Usé nombres claros como Producto, Movimiento, Inventario, métodos como getStock() y ajustarStock().
+> 
+
+---
+
+## 10. Requisitos funcionales
+
+**Extras implementados**
+
+> Agregué validaciones avanzadas, alertas de stock bajo y control de errores amigable.
+> 
+
+**Parte más difícil**
+
+> La parte más compleja fue controlar correctamente las excepciones y validaciones del usuario para evitar que el programa se detuviera.
+>
