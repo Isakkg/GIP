@@ -165,7 +165,7 @@ Movimiento "*" --> "1" Producto
 
 ```
 
-2. Casos de uso principales
+## *5. Casos de uso principales *
 
 Actores
 
@@ -303,6 +303,7 @@ Postcondiciones:
 Flujos alternativos:
 InventarioVacío.
 
+## *6. Diagramas De Secuencia*
 1) Registrar Producto
 ```
 @startuml
@@ -426,7 +427,7 @@ end
 @enduml
 ```
 
-Principios de Programación Orientada a Objetos (POO)
+## Principios de Programación Orientada a Objetos (POO)
 
 Abstracción
 El sistema modela entidades reales mediante clases. Producto representa artículos del inventario; Movimiento modela una operación de entrada o salida; Inventario centraliza y administra los objetos del sistema.
@@ -440,7 +441,7 @@ En el diseño UML, Movimiento actúa como clase abstracta que agrupa atributos y
 Polimorfismo
 El método aplicarMovimiento() se comporta de forma distinta según si se trata de una entrada o una salida de stock. Esto permite tratar los movimientos de forma general sin perder especialización.
 
-Principios SOLID aplicados
+## Principios SOLID aplicados
 
 S — Responsabilidad Única (SRP)
 
@@ -464,7 +465,7 @@ En el UML se separan interfaces chicas como Validable y Persistible, evitando fo
 D — Inversión de Dependencias (DIP)
 El diseño teórico utiliza dependencias hacia interfaces (Validable, Persistible) en lugar de depender de implementaciones concretas. Esto reduce acoplamiento y facilita la evolución del sistema.
 
-Patrón Singleton en el sistema
+## Patrón Singleton en el sistema
 
 El patrón Singleton funciona bien en este proyecto porque el inventario debe existir solo una vez durante toda la ejecución. Tener varias copias del inventario generaría datos inconsistentes. Con Singleton, todas las operaciones (registrar, ingresar stock, retirar stock y ver productos) trabajan sobre la misma instancia, garantizando que los cambios se reflejen en todo el sistema.
 
