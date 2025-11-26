@@ -455,40 +455,50 @@ end
 ## Principios de Programación Orientada a Objetos (POO)
 
 Abstracción
-El sistema modela entidades reales mediante clases. Producto representa artículos del inventario; Movimiento modela una operación de entrada o salida; Inventario centraliza y administra los objetos del sistema.
+El sistema representa elementos reales del inventario mediante clases específicas.
+Producto modela los artículos con sus atributos esenciales; Movimiento abstrae una operación de entrada o salida de stock; Proveedor encapsula la información de los proveedores; e Inventario abstrae la capa de persistencia de datos.
+Cada clase refleja solo los aspectos necesarios de la entidad que representa, evitando detalles irrelevantes.
 
 Encapsulamiento
-Los atributos (nombre, precio, stock) están protegidos y solo pueden modificarse a través de métodos como ajustarStock() o getters/setters. Esto evita inconsistencias y asegura control del estado.
+Los atributos de las clases están declarados como privados y solo se accede a ellos mediante métodos públicos (getNombre(), getPrecio(), getStock(), setStock()).
+La modificación del stock está encapsulada en el método ajustarStock(int cantidad), lo que garantiza un control centralizado del estado de los productos.
 
 Herencia
-En el diseño UML, Movimiento actúa como clase abstracta que agrupa atributos y comportamientos comunes. IngresoMovimiento y SalidaMovimiento heredan de ella y redefinen la lógica correspondiente.
+La herencia se aplica en la jerarquía de excepciones personalizada.
+ErrorInventario actúa como clase base y es extendida por DatosInvalidosError, StockInsuficienteError, NombreInvalidoError y FormatoNumericoError.
+Esto permite reutilizar el comportamiento de una excepción estándar mientras se especializan los diferentes tipos de errores del sistema.
 
 Polimorfismo
-El método aplicarMovimiento() se comporta de forma distinta según si se trata de una entrada o una salida de stock. Esto permite tratar los movimientos de forma general sin perder especialización.
+El sistema usa polimorfismo en el manejo de excepciones: distintas clases derivadas se pueden tratar como su clase base (ErrorInventario).
+Además, en la clase Movimiento, el método aplicar() ejecuta una lógica distinta según el tipo de movimiento, manteniendo una misma interfaz de uso y comportamiento dinámico.
 
 ## Principios SOLID aplicados
 
-S — Responsabilidad Única (SRP)
+S — Responsabilidad Única
+Cada clase del sistema posee una única responsabilidad:
+Producto gestiona datos y operaciones de productos.
+Inventario gestiona la persistencia con archivos.
+Movimiento valida y aplica modificaciones al stock.
+Main administra la interacción con el usuario.
+Esto promueve claridad, mantenimiento sencillo y menor acoplamiento.
 
-Producto gestiona únicamente atributos y métodos del producto.
+O — Abierto/Cerrado
+Las clases están diseñadas para permitir extensiones sin necesidad de ser modificadas.
+Se pueden agregar nuevos tipos de movimientos, nuevas validaciones o nuevos métodos de persistencia sin cambiar las clases existentes, gracias a la separación de responsabilidades.
 
-Inventario controla colecciones y persistencia.
+L — Sustitución de Liskov
+Las clases derivadas de ErrorInventario pueden emplearse en cualquier lugar donde se utilice la clase base.
+Esto asegura un comportamiento coherente y estable cuando se manejan diferentes tipos de errores en el sistema.
 
-Movimiento se encarga de modificar el stock.
+I — Segregación de Interfaces
+Aunque esta versión del sistema no implementa interfaces explícitas, la arquitectura sigue el espíritu del principio:
+cada clase contiene únicamente los métodos que realmente necesita, evitando estructuras grandes o innecesarias y manteniendo el diseño limpio y modular.
 
-Excepciones define errores específicos del dominio.
+D — Inversión de Dependencias
 
-O — Abierto/Cerrado (OCP)
-Se pueden agregar nuevos tipos de movimientos sin modificar Inventario ni Producto, solo creando nuevas subclases de Movimiento.
-
-L — Sustitución de Liskov (LSP)
-IngresoMovimiento y SalidaMovimiento pueden usarse donde se espera un objeto Movimiento, sin romper la lógica del sistema.
-
-I — Segregación de Interfaces (ISP)
-En el UML se separan interfaces chicas como Validable y Persistible, evitando forzar a las clases a implementar métodos innecesarios.
-
-D — Inversión de Dependencias (DIP)
-El diseño teórico utiliza dependencias hacia interfaces (Validable, Persistible) en lugar de depender de implementaciones concretas. Esto reduce acoplamiento y facilita la evolución del sistema.
+La lógica principal no depende de detalles concretos de implementación.
+La clase Main delega la persistencia a Inventario, y las clases del dominio (Producto, Movimiento) no conocen ni dependen del funcionamiento interno del sistema de archivos.
+Esto separa el nivel lógico del nivel técnico y mejora la mantenibilidad.
 
 ## Patrón Singleton en el sistema
 
