@@ -494,9 +494,21 @@ La lógica principal no depende de detalles concretos de implementación.
 La clase Main delega la persistencia a Inventario, y las clases del dominio (Producto, Movimiento) no conocen ni dependen del funcionamiento interno del sistema de archivos.
 Esto separa el nivel lógico del nivel técnico y mejora la mantenibilidad.
 
-## Patrón Singleton en el sistema
+## Implementación del Patrón Facade
 
-El patrón Singleton funciona bien en este proyecto porque el inventario debe existir solo una vez durante toda la ejecución. Tener varias copias del inventario generaría datos inconsistentes. Con Singleton, todas las operaciones (registrar, ingresar stock, retirar stock y ver productos) trabajan sobre la misma instancia, garantizando que los cambios se reflejen en todo el sistema.
+El sistema aplica el patrón Facade mediante la clase Inventario, que centraliza todas las operaciones de persistencia. Esta clase ofrece métodos simples (guardarProductos y cargarProductos) que ocultan la complejidad del manejo de archivos, serialización y manejo de excepciones.
+
+Gracias a esta fachada:
+
+La clase Main solo invoca métodos de alto nivel sin conocer detalles técnicos.
+
+Se reduce el acoplamiento entre la interfaz de usuario y la persistencia.
+
+Se mejora la cohesión y la claridad del diseño.
+
+Permite extender el sistema (nuevos tipos de persistencia o datos almacenados) modificando únicamente Inventario.
+
+En resumen, Inventario actúa como un punto de acceso unificado que simplifica y organiza el uso de la funcionalidad interna del sistema.
 
 Además, centraliza la persistencia: la misma instancia es la que carga y guarda los datos, evitando duplicados y facilitando el control del estado del inventario.
 
