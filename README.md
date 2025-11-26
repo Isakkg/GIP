@@ -534,13 +534,12 @@ Además, centraliza la persistencia: la misma instancia es la que carga y guarda
 
 > Existe una asociación entre Movimiento y Producto, porque un movimiento siempre está relacionado con un producto.
 > 
-> 
 > Hay una forma de **agregación** entre `Inventario` y la lista de `Producto`, ya que el inventario gestiona productos pero estos pueden existir independientemente.
 > 
 
 **Interfaz vs clase abstracta**
 
-> En este proyecto usé clases concretas en lugar de interfaces porque la lógica era sencilla y no necesitaba múltiples implementaciones. En una versión más avanzada podría usar interfaces para repositorios de persistencia.
+> En este proyecto usamos clases concretas en lugar de interfaces porque la lógica era sencilla y no necesitaba múltiples implementaciones. En una versión más avanzada podriamos usar interfaces para repositorios de persistencia.
 > 
 
 **Sobrecarga o sobreescritura**
@@ -554,12 +553,12 @@ Además, centraliza la persistencia: la misma instancia es la que carga y guarda
 
 **¿El UML refleja el código?**
 
-> Sí, el diagrama refleja las relaciones reales entre las clases. Durante la implementación ajusté el diseño agregando el método ajustarStock() en Producto.
+> Sí, el diagrama refleja las relaciones reales entre las clases. Durante la implementación ajustamos el diseño agregando el método ajustarStock() en Producto.
 > 
 
 **Herramienta usada**
 
-> Usé PlantUML / herramientas UML en línea y me aseguré de que las clases, atributos y relaciones coincidieran con el código desarrollado.
+> Usamos PlantUML / herramientas UML en línea y me aseguré de que las clases, atributos y relaciones coincidieran con el código desarrollado.
 > 
 
 ---
@@ -568,12 +567,12 @@ Además, centraliza la persistencia: la misma instancia es la que carga y guarda
 
 **¿Qué patrón usaste?**
 
-> Apliqué una idea del patrón Facade, donde la clase Inventario centraliza las operaciones de registrar productos, entradas y salidas.
+> Aplicamos una idea del patrón Facade, donde la clase Inventario centraliza las operaciones de registrar productos, entradas y salidas.
 > 
 
 **Motivación**
 
-> Elegí este patrón para simplificar la interacción con el sistema y evitar que la clase Main manejara toda la lógica.
+> Elegimos este patrón para simplificar la interacción con el sistema y evitar que la clase Main manejara toda la lógica.
 > 
 
 ---
@@ -582,7 +581,7 @@ Además, centraliza la persistencia: la misma instancia es la que carga y guarda
 
 **Principio aplicado**
 
-> Apliqué el Principio de Responsabilidad Única (SRP) separando cada clase con una sola función:
+> Aplicamos el Principio de Responsabilidad Única (SRP) separando cada clase con una sola función:
 > 
 > 
 > `Producto` representa datos, `Movimiento` gestiona operaciones y `Inventario` administra la colección.
@@ -590,7 +589,7 @@ Además, centraliza la persistencia: la misma instancia es la que carga y guarda
 
 **Bajo acoplamiento y alta cohesión**
 
-> Diseñé las clases para que cada una tenga responsabilidades claras y que se comuniquen solo mediante métodos públicos.
+> Diseñamos las clases para que cada una tenga responsabilidades claras y que se comuniquen solo mediante métodos públicos.
 > 
 
 ---
@@ -599,15 +598,14 @@ Además, centraliza la persistencia: la misma instancia es la que carga y guarda
 
 **Excepciones personalizadas**
 
-> Implementé ErrorInventario, DatosInvalidosError y StockInsuficienteError.
-> 
+> Implementamo ErrorInventario, DatosInvalidosError y StockInsuficienteError.
 > 
 > Se lanzan cuando el usuario introduce datos inválidos o intenta retirar más stock del disponible.
 > 
 
 **Evitar que el sistema se detenga**
 
-> Uso bloques try-catch para capturar errores y permitir que el programa siga ejecutándose.
+> Usamos bloques try-catch para capturar errores y permitir que el programa siga ejecutándose.
 > 
 
 ---
@@ -616,7 +614,7 @@ Además, centraliza la persistencia: la misma instancia es la que carga y guarda
 
 **¿Cómo guardas los datos?**
 
-> Implementé persistencia mediante serialización de objetos en archivos, para que los productos se mantengan aunque el programa se cierre.
+> Implementamos persistencia mediante serialización de objetos en archivos, para que los productos se mantengan aunque el programa se cierre.
 > 
 
 **Clases responsables**
@@ -630,7 +628,7 @@ Además, centraliza la persistencia: la misma instancia es la que carga y guarda
 
 **Tecnología usada**
 
-> Utilicé una interfaz de consola usando Scanner.
+> Utilizamos una interfaz de consola usando Scanner.
 > 
 
 **Separación de responsabilidades**
@@ -644,12 +642,12 @@ Además, centraliza la persistencia: la misma instancia es la que carga y guarda
 
 **Estructura del código**
 
-> Organicé el proyecto en clases separadas por responsabilidad y mantuve el código modular.
+> Organizamos el proyecto en clases separadas por responsabilidad y mantuvimos el código modular.
 > 
 
 **Convenciones**
 
-> Usé nombres claros como Producto, Movimiento, Inventario, métodos como getStock() y ajustarStock().
+> Usamos nombres claros como Producto, Movimiento, Inventario, métodos como getStock() y ajustarStock().
 > 
 
 ---
@@ -658,7 +656,7 @@ Además, centraliza la persistencia: la misma instancia es la que carga y guarda
 
 **Extras implementados**
 
-> Agregué validaciones avanzadas y control de errores amigable.
+> Agregamos validaciones avanzadas y control de errores amigable.
 > 
 
 **Parte más difícil**
@@ -666,4 +664,4 @@ Además, centraliza la persistencia: la misma instancia es la que carga y guarda
 > La parte más compleja fue controlar correctamente las excepciones y validaciones del usuario para evitar que el programa se detuviera.
 >
 ## INFORME
-[Sistema de Gestión de Inventarios.docx](https://github.com/user-attachments/files/23779656/Sistema.de.Gestion.de.Inventarios.docx)
+[Sistema.de.Gestion.de.Inventarios.docx](https://github.com/user-attachments/files/23781371/Sistema.de.Gestion.de.Inventarios.docx)
