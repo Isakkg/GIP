@@ -82,13 +82,14 @@
 
 ```
 @startuml
-title Diagrama de Clases 
+title Diagrama de Clases
 skinparam classAttributeIconSize 0
 skinparam linetype ortho
 
 interface Serializable
 class Exception
 
+' ==== Jerarquía de Excepciones ====
 class ErrorInventario extends Exception {
   + ErrorInventario(mensaje: String)
 }
@@ -138,66 +139,45 @@ class Movimiento {
   + aplicar() throws StockInsuficienteError
 }
 
-
-class SistemaInventario {
-  - ArrayList<Producto> productos
-  - ArrayList<Proveedor> proveedores
-
-  + SistemaInventario()
-  + registrarProducto(nombre: String, precio: double, stock: int): void
-  + registrarProveedor(nombre: String, contacto: String): void
-  + realizarEntrada(nombreProducto: String, cantidad: int): void
-  + realizarSalida(nombreProducto: String, cantidad: int): void
-  + obtenerProductos(): ArrayList<Producto>
-  + buscarProducto(nombre: String): Producto
-  - guardarCambios(): void
-}
-
-
-class GestorPersistencia {
+class Inventario {
   + {static} guardarProductos(productos: ArrayList<Producto>): void
   + {static} cargarProductos(): ArrayList<Producto>
 }
 
-
 class Main {
+  - {static} ArrayList<Producto> productos
   - {static} Scanner sc
-  - {static} SistemaInventario sistema
   + {static} main(args: String[]): void
-  - {static} menu(): void
+  - {static} registrarProducto(): void
+  - {static} entradaStock(): void
+  - {static} salidaStock(): void
+  - {static} verProductos(): void
+  - {static} buscarProducto(nombre: String): Producto
 }
 
+' ==== Relaciones ====
 
+' Herencia de excepciones
 
-Exception <|-- ErrorInventario
-ErrorInventario <|-- DatosInvalidosError
-ErrorInventario <|-- StockInsuficienteError
-ErrorInventario <|-- NombreInvalidoError
-ErrorInventario <|-- FormatoNumericoError
+' Main mantiene la lista de productos
+Main "1" o-- "*" Producto : mantiene\nlista productos
 
+' Main usa Inventario para persistencia
+Main ..> Inventario : usa\n(guardarProductos,\ncargarProductos)
 
-Main ..> SistemaInventario : usa >
-
-
-SistemaInventario "1" o-- "*" Producto : administra >
-SistemaInventario "1" o-- "*" Proveedor : administra >
-
-
-SistemaInventario ..> Movimiento : crea y aplica >
-
-
-SistemaInventario ..> GestorPersistencia : usa para\nguardar/cargar >
-
-
+' Movimiento depende de Producto
 Movimiento "1" --> "1" Producto : modifica stock >
 
+' Inventario depende de Producto para serializar
+Inventario ..> Producto : serializa >
 
+' Movimiento lanza excepciones
 Movimiento ..> DatosInvalidosError : lanza >
 Movimiento ..> StockInsuficienteError : lanza >
 
 @enduml
 ```
-<img width="1986" height="894" alt="dLRBRjim4BmBq3yGFjbjdBPN8J0I96aHe0aC-DZsG5DhXub42YJbvj7yUvUa7hHCksvEDiYTsUNiBAbpRQWoTLcaYU6c07B5wLhHaf8So6L1DMYI9lgHYuhYCc6uf2-CKNn" src="https://github.com/user-attachments/assets/f3f79117-76ce-4beb-9b5a-d2fb98dd2d77" />
+<img width="2133" height="688" alt="bLPDJzmm4Br7od-mzj9ikulQQzIkGALLgLg4kiVIWzSP5aDYfxQpvKFy97v5_rZ7Tfmu8Qme5v3dlJSpRyOnXzfGPPggJ1F3JGdacDEjeXKb1P2F9TMWqqHVSr5JF2KCJ_I" src="https://github.com/user-attachments/assets/58788423-cb87-4706-b716-485333aa6fc7" />
 
 ## *5. Casos de uso principales*
 
