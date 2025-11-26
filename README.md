@@ -213,10 +213,10 @@ Flujo principal:
 2. El sistema solicita nombre, precio y stock inicial.
 3. El usuario ingresa los datos.
 4. El sistema valida la información.
-   4.1 El nombre no debe estar vacío.
-   4.2 El precio y el stock deben ser valores numéricos válidos.
-5. El sistema crea el producto.
-6. El sistema lo agrega al inventario.
+4.1 El nombre no debe estar vacío.
+4.2 El precio y el stock deben ser valores numéricos válidos.
+6. El sistema crea el producto.
+7. El sistema lo agrega al inventario.
 
 Postcondiciones:
 1. El producto queda disponible para futuras operaciones.
@@ -245,8 +245,8 @@ Flujo principal:
 5. El sistema solicita la cantidad.
 6. El usuario ingresa la cantidad.
 7. El sistema valida la cantidad.
-   7.1 Debe ser numérica.
-   7.2 Debe ser mayor que cero.
+7.1 Debe ser numérica.
+7.2 Debe ser mayor que cero.
 8. El sistema suma la cantidad al stock.
 9. El sistema confirma la operación.
 
@@ -278,10 +278,10 @@ Flujo principal:
 5. El sistema solicita la cantidad.
 6. El usuario ingresa la cantidad.
 7. El sistema valida la cantidad.
-   7.1 Debe ser numérica.
-   7.2 Debe ser mayor que cero.
+7.1 Debe ser numérica.
+7.2 Debe ser mayor que cero.
 8. El sistema verifica el stock disponible.
-   8.1 La cantidad no debe superar el stock actual.
+8.1 La cantidad no debe superar el stock actual.
 9. El sistema descuenta la cantidad.
 10. El sistema confirma la operación.
 
