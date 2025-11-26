@@ -500,12 +500,6 @@ La clase Main solo invoca métodos de alto nivel sin conocer detalles técnicos.
 
 Se reduce el acoplamiento entre la interfaz de usuario y la persistencia.
 
-Se mejora la cohesión y la claridad del diseño.
-
-Permite extender el sistema (nuevos tipos de persistencia o datos almacenados) modificando únicamente Inventario.
-
-En resumen, Inventario actúa como un punto de acceso unificado que simplifica y organiza el uso de la funcionalidad interna del sistema.
-
 Además, centraliza la persistencia: la misma instancia es la que carga y guarda los datos, evitando duplicados y facilitando el control del estado del inventario.
 
 ## 1. Principios de POO
