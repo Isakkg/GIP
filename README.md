@@ -4,9 +4,9 @@
 
 ## *1. Descripción del problema*
 
-*La tienda presenta pérdidas porque no sabe cuándo debe reabastecer ciertos productos. El sistema actual, basado en registros manuales o hojas de cálculo, no genera alertas de stock bajo, no valida operaciones y no permite analizar la información de forma histórica. Esto provoca falta de mercancía, exceso de inventario o decisiones poco precisas.*
+*La tienda presenta pérdidas porque no sabe cuándo debe reabastecer ciertos productos. El sistema actual, basado en registros manuales o hojas de cálculo, no valida operaciones y no permite analizar la información de forma histórica. Esto provoca falta de mercancía, exceso de inventario o decisiones poco precisas.*
 
-*El sistema digital propuesto permite registrar productos, gestionar entradas y salidas de stock, validar datos, y mostrar alertas cuando un producto llega a niveles críticos. El diseño considera además la integración de proveedores, movimientos históricos y persistencia de datos.*
+*El sistema digital propuesto permite registrar productos, gestionar entradas y salidas de stock, y validar datos. El diseño considera además la integración de proveedores, movimientos históricos y persistencia de datos.*
 
 ---
 
@@ -18,7 +18,6 @@
 - *Aumentar stock (entrada).*
 - *Disminuir stock (salida).*
 - *Validación de stock insuficiente.*
-- *Visualización de productos con alerta de stock bajo.*
 - *Uso de excepciones personalizadas.*
 
 *Funcionalidades contempladas en el diseño UML (pero no integradas totalmente en la versión actual del código):*
@@ -59,7 +58,6 @@
 
 4. *Ver productos*  
 - *Se muestra la lista completa de productos.*  
-- *Si algún producto tiene menos de 5 unidades, aparece la alerta de “Stock bajo”.*
 
 ---
 
@@ -293,7 +291,6 @@ Flujo principal:
 
 Postcondiciones:
 1. El stock se actualiza.
-2. Si el stock queda por debajo de 5, se muestra alerta de stock bajo.
 
 Flujos alternativos:
 ProductoNoEncontrado.
@@ -315,7 +312,6 @@ Flujo principal:
 1. El usuario selecciona "Ver productos".
 2. El sistema muestra la lista.
 3. El sistema identifica niveles de stock.
-   3.1 Si stock < 5, muestra alerta de stock bajo.
 
 Postcondiciones:
 1. El usuario conoce el estado actual del inventario.
@@ -441,9 +437,7 @@ alt Inventario no vacío
     Main -> Producto : getStock()
     Main -> Usuario : Muestra datos del producto
 
-    alt Stock < 5
-      Main -> Usuario : Muestra "ALERTA: Stock bajo"
-    end
+
   end
 else Inventario vacío
   Main -> Usuario : Muestra "No hay productos registrados"
@@ -662,10 +656,13 @@ Además, centraliza la persistencia: la misma instancia es la que carga y guarda
 
 **Extras implementados**
 
-> Agregué validaciones avanzadas, alertas de stock bajo y control de errores amigable.
+> Agregué validaciones avanzadas y control de errores amigable.
 > 
 
 **Parte más difícil**
 
 > La parte más compleja fue controlar correctamente las excepciones y validaciones del usuario para evitar que el programa se detuviera.
 >
+## INFORME
+[Sistema de Gestión de Inventarios.docx](https://github.com/user-attachments/files/23779401/Sistema.de.Gestion.de.Inventarios.docx)
+
