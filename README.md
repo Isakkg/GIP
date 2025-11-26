@@ -664,5 +664,4 @@ Además, centraliza la persistencia: la misma instancia es la que carga y guarda
 > La parte más compleja fue controlar correctamente las excepciones y validaciones del usuario para evitar que el programa se detuviera.
 >
 ## INFORME
-[Sistema de Gestión de Inventarios.docx](https://github.com/user-attachments/files/23779401/Sistema.de.Gestion.de.Inventarios.docx)
-
+[Sistema de Gestión de Inventarios.docx](https://github.com/user-attachments/files/23779656/Sistema.de.Gestion.de.Inventarios.docx)
