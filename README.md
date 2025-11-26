@@ -82,32 +82,31 @@
 
 ```
 @startuml
-title Diagrama de Clases
+title Diagrama de Clases 
 skinparam classAttributeIconSize 0
 skinparam linetype ortho
 
+interface Serializable
+class Exception
 
-class Main {
-  - {static} Scanner sc
-  - {static} SistemaInventarioFacade sistema
-  + {static} main(args: String[]): void
-  - {static} menu(): void
+class ErrorInventario extends Exception {
+  + ErrorInventario(mensaje: String)
 }
 
+class DatosInvalidosError extends ErrorInventario {
+  + DatosInvalidosError(mensaje: String)
+}
 
-class SistemaInventarioFacade {
-  ' Esta clase oculta la complejidad al Main
-  - ArrayList<Producto> productos
-  - ArrayList<Proveedor> proveedores
-  
-  + SistemaInventarioFacade()
-  + registrarProducto(nombre: String, precio: double, stock: int): void
-  + registrarProveedor(nombre: String, contacto: String): void
-  + realizarEntrada(nombreProducto: String, cantidad: int): void
-  + realizarSalida(nombreProducto: String, cantidad: int): void
-  + obtenerProductos(): ArrayList<Producto>
-  + buscarProducto(nombre: String): Producto
-  - guardarCambios(): void
+class StockInsuficienteError extends ErrorInventario {
+  + StockInsuficienteError(mensaje: String)
+}
+
+class NombreInvalidoError extends ErrorInventario {
+  + NombreInvalidoError(mensaje: String)
+}
+
+class FormatoNumericoError extends ErrorInventario {
+  + FormatoNumericoError(mensaje: String)
 }
 
 
@@ -135,32 +134,70 @@ class Movimiento {
   - Producto producto
   - int cantidad
   + Movimiento(tipo: String, producto: Producto, cantidad: int)
-  + validarDatos()
-  + aplicar()
+  + validarDatos() throws DatosInvalidosError
+  + aplicar() throws StockInsuficienteError
+}
+
+
+class SistemaInventario {
+  - ArrayList<Producto> productos
+  - ArrayList<Proveedor> proveedores
+
+  + SistemaInventario()
+  + registrarProducto(nombre: String, precio: double, stock: int): void
+  + registrarProveedor(nombre: String, contacto: String): void
+  + realizarEntrada(nombreProducto: String, cantidad: int): void
+  + realizarSalida(nombreProducto: String, cantidad: int): void
+  + obtenerProductos(): ArrayList<Producto>
+  + buscarProducto(nombre: String): Producto
+  - guardarCambios(): void
 }
 
 
 class GestorPersistencia {
-  ' Antes llamado "Inventario", ahora solo maneja archivos
   + {static} guardarProductos(productos: ArrayList<Producto>): void
   + {static} cargarProductos(): ArrayList<Producto>
 }
 
 
-class ErrorInventario extends Exception
-class DatosInvalidosError extends ErrorInventario
-class StockInsuficienteError extends ErrorInventario
+class Main {
+  - {static} Scanner sc
+  - {static} SistemaInventario sistema
+  + {static} main(args: String[]): void
+  - {static} menu(): void
+}
 
 
-Main ..> SistemaInventarioFacade : usa >
 
-SistemaInventarioFacade "1" -- "" Producto : administra >
-SistemaInventarioFacade "1" o-- "*" Proveedor : administra >
+Exception <|-- ErrorInventario
+ErrorInventario <|-- DatosInvalidosError
+ErrorInventario <|-- StockInsuficienteError
+ErrorInventario <|-- NombreInvalidoError
+ErrorInventario <|-- FormatoNumericoError
 
-SistemaInventarioFacade ..> Movimiento : crea y ejecuta >
-SistemaInventarioFacade ..> GestorPersistencia : usa para guardar >
+
+Main ..> SistemaInventario : usa >
+
+
+SistemaInventario "1" o-- "*" Producto : administra >
+SistemaInventario "1" o-- "*" Proveedor : administra >
+
+
+SistemaInventario ..> Movimiento : crea y aplica >
+
+
+SistemaInventario ..> GestorPersistencia : usa para\nguardar/cargar >
+
+
+Movimiento "1" --> "1" Producto : modifica stock >
+
+
+Movimiento ..> DatosInvalidosError : lanza >
+Movimiento ..> StockInsuficienteError : lanza >
+
+@enduml
 ```
-<img width="2123" height="688" alt="dLLDRzim3BtxLn2vBCNQOhiQGz2YxOO2wr0Wns47HkPSfR9aI7BG3_I_ZvAis4dZRkl9DiNt-FL4dpcFrdUDAhpqYk1IOcsnGQW8BXGwSeMxbxf5De9WWplttifLv-bQ6Bs" src="https://github.com/user-attachments/assets/3dea694d-3fe6-4d73-abb6-47d067383d25" />
+<img width="1986" height="894" alt="dLRBRjim4BmBq3yGFjbjdBPN8J0I96aHe0aC-DZsG5DhXub42YJbvj7yUvUa7hHCksvEDiYTsUNiBAbpRQWoTLcaYU6c07B5wLhHaf8So6L1DMYI9lgHYuhYCc6uf2-CKNn" src="https://github.com/user-attachments/assets/f3f79117-76ce-4beb-9b5a-d2fb98dd2d77" />
 
 ## *5. Casos de uso principales*
 
